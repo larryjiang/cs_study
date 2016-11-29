@@ -426,6 +426,25 @@
 
 ;(define (multiplicand p) (caddr p))
 
+
+(define (lng-variable? e) (symbol? e))
+
+(define (lng-same-variable? v1 v2)
+  (and (lng-variable? v1) (lng-variable? v2) (eq? v1 v2)))
+
+(define (lng-sum? e)
+  (if (and (list? e) (> (length e) 2))
+      (if (and (list? e) (= (length e) 3))
+      (eq? (cadr e) '+)
+      (or (eq? (cadr e) '+) (lng-sum? (cddr e))))
+      (error "Input list is of wrong format" e)))
+
+
+
+
+
+
+
 (define (multiplicand p) (make-product-of-list (cddr p)))
 
 (define (deriv exp var)
@@ -472,6 +491,8 @@
 
 ;;exercise 2.57 done and merged above
 
-;;exercise 2.58 
+;;exercise 2.58 a has been solved
+
+
 
 
