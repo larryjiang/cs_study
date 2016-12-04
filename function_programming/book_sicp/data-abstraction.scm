@@ -432,6 +432,9 @@
 (define (lng-same-variable? v1 v2)
   (and (lng-variable? v1) (lng-variable? v2) (eq? v1 v2)))
 
+;;The implementation of this is bad
+;;since it relies too much on length function which
+;;has o(n) complexity
 (define (lng-sum? e)
   (if (and (list? e) (> (length e) 2))
       (if (and (list? e) (= (length e) 3))
@@ -439,11 +442,53 @@
       (or (eq? (cadr e) '+) (lng-sum? (cddr e))))
       (error "Input list is of wrong format" e)))
 
+(define (lng-addend e)
+  (define (lng-addend-aux ex l)
+    (if (eq? (car ex) '+)
+	(flatten-if-possible l)
+	(lng-addend-aux (cdr ex) (append l (list (car ex))))))
+(lng-addend-aux e (list)))
+
+(define (lng-augend e)
+  (if (eq? (car e) '+)
+      (cdr e)
+      (flatten-if-possible (lng-augend (cdr e)))))
+
+(define (lng-product? e)
+  (define (inner-product? ex) 
+    (if (and (list? ex) (null? (cdr ex)))
+	 #t
+	 (and (eq? (cadr ex) '*) (inner-product? (cddr ex)))
+	 ))
+  (if (null? (cdr e))
+      (error "Input only has one element" e)
+      (inner-product? e)))
+
+(define (lng-make-product m1 m2)
+  (cond ((or (=number? m1 0) (=number? m2 0)) 0)
+	((=number? m1 1) m2)
+	((=number? m2 1) m1)
+	((and (number? m1) (number? m2)) (* m1 m2))
+	(else (list m1 '* m2))))
+
+(define (lng-multiplier e)
+  (flatten-if-possible (car e)))
+
+(define (lng-multiplicand e)
+  (flatten-if-possible (cddr e)))
 
 
 
+(define (flatten-if-possible l)
+  (if (and (list? l) (eq? '() (cdr l)) )
+      (flatten-if-possible (car l))
+      l))
 
-
+(define (lng-make-sum a1 a2) 
+  (cond ((=number? a1 0) a2)
+	((=number? a2 0) a1)
+	((and (number? a1) (number? a2)) (+ a1 a2))
+	(else (list a1 '+ a2))))
 
 (define (multiplicand p) (make-product-of-list (cddr p)))
 
@@ -476,16 +521,27 @@
 	 (ifx-make-sum 
 	  (ifx-make-product (ifx-multiplier exp)
 			(ifx-deriv (ifx-multiplicand exp) var))
-	  (ifx-make-product (ifx-deriv (ifx-multiplier exp) var)
+	  (ifx-make-product (ifx-deriv (ifx-multiplier exp)- var)
 			(ifx-multiplicand exp))))
 	((exponentiation? exp)
 	 (ifx-make-product (exponent exp) (ifx-make-product (make-exponentiation (base exp) (- (exponent exp) 1)) (ifx-deriv (base exp) var))))
 	(else 
 	 (error "unknown expression type -- DERIV" exp))))
 
-
-
-
+(define (lng-deriv exp var)
+  (cond ((number? exp) 0)
+	((lng-variable? exp) 
+	 (if (lng-same-variable? exp var) 1 0))
+	((lng-sum? exp) 
+	 (lng-make-sum (lng-deriv (lng-addend exp) var)
+		       (lng-deriv (lng-augend exp) var)))
+	((lng-product? exp)
+	 (lng-make-sum 
+	  (lng-make-product (lng-multiplier exp) 
+			    (lng-deriv (lng-multiplicand exp) var)) 
+	  (lng-make-product (lng-deriv (lng-multiplier exp) var)
+			    (lng-multiplicand exp))))
+	(else (error "Unknown expression type --LNG-DERIV" exp))))
 
 ;;exercise 2.56 done and merged above
 
