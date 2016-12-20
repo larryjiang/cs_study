@@ -175,12 +175,16 @@ public class PureArrayDeque<T> implements Deque<T> {
 		deque.enqueue(3);
 		deque.enqueueFromHead(4);
 		deque.enqueueFromHead(5);
+		deque.enqueue(6);
+		deque.enqueue(7);
+		deque.enqueue(8);
+		deque.enqueue(9);
 		
 		assertTrue(deque.dequeue().intValue() ==  5);
 		assertTrue(deque.dequeue().intValue() == 4);
 		assertTrue(deque.dequeue().intValue() == 1);
-		assertTrue(deque.dequeueFromTail().intValue() == 3);
-		assertTrue(deque.dequeueFromTail().intValue() == 2);
+		assertTrue(deque.dequeueFromTail().intValue() == 9);
+		assertTrue(deque.dequeueFromTail().intValue() == 8);
 		
 		System.out.println("Success!");
 		
