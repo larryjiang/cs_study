@@ -98,16 +98,12 @@ public class StackOutOfQueues<T> implements Stack<T> {
 			swapInPlace();
 		}
 		
-		T r = null;
+		T r = qOne.dequeue();
 		
-		do{
-			T t = qOne.dequeue();
-			if( qOne.empty()){
-				r = t;
-			}else{
-				qTwo.enqueue(t);
-			}
-		}while(!qOne.empty());
+		while(!qOne.empty()){
+			qTwo.enqueue(r);
+			r = qOne.dequeue();
+		}
 		
 		return r;
 	}

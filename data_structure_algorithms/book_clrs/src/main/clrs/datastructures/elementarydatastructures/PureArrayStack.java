@@ -32,7 +32,7 @@ public class PureArrayStack<T>  implements Stack<T>{
 			throw new OutOfMemoryError();
 		}
 		
-		if(underlying_array == SHARED_EMPTY_ARRAY){
+		if(underlying_array == SHARED_EMPTY_ARRAY || underlying_array == null){
 			minSize = getNewMinSize(minSize);
 			
 			underlying_array = new Object[minSize];

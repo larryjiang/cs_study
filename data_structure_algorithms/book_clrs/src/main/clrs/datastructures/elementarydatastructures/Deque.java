@@ -3,8 +3,8 @@ package main.clrs.datastructures.elementarydatastructures;
 
 public interface Deque<T> extends Queue<T>{
 	
-	void enqueueFromTail();
+	T dequeueFromTail();
 	
-	void dequeueFromHead();
+	void enqueueFromHead(T t);
 	
 }
