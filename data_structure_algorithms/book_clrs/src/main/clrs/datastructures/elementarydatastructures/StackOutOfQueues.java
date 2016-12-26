@@ -58,10 +58,10 @@ public class StackOutOfQueues<T> implements Stack<T> {
 	}
 	
 	private T popElement_B(){
-		if(empty()){
+		if(isEmpty()){
 			throw new IllegalStateException("No elements contained in the stack!!!");
 		}
-		if(qOne.empty()){
+		if(qOne.isEmpty()){
 			return qTwo.dequeue();
 		}else{
 			return qOne.dequeue();
@@ -69,20 +69,20 @@ public class StackOutOfQueues<T> implements Stack<T> {
 	}
 	
 	private void pushElement_B(T t){
-		if(qOne.empty() && qTwo.empty()){
+		if(qOne.isEmpty() && qTwo.isEmpty()){
 			qOne.enqueue(t);
-		}else if(qOne.empty()){
+		}else if(qOne.isEmpty()){
 			swapInPlace();
 		}
 		
 		qTwo.enqueue(t);
-		while(!qOne.empty()){
+		while(!qOne.isEmpty()){
 			qTwo.enqueue(qOne.dequeue());
 		}
 	}
 	
 	private void pushElement_A(T t){
-		if(qOne.empty()){
+		if(qOne.isEmpty()){
 			qTwo.enqueue(t);
 		}else{
 			qOne.enqueue(t);
@@ -90,17 +90,17 @@ public class StackOutOfQueues<T> implements Stack<T> {
 	}
 	
 	private T popElement_A(){
-		if(empty()){
+		if(isEmpty()){
 			throw new IllegalStateException("Stack empty, can not pop!!!");
 		}
 		
-		if(qOne.empty()){
+		if(qOne.isEmpty()){
 			swapInPlace();
 		}
 		
 		T r = qOne.dequeue();
 		
-		while(!qOne.empty()){
+		while(!qOne.isEmpty()){
 			qTwo.enqueue(r);
 			r = qOne.dequeue();
 		}
@@ -110,7 +110,7 @@ public class StackOutOfQueues<T> implements Stack<T> {
 	
 	
 	@Override
-	public boolean empty() {
+	public boolean isEmpty() {
 		return size() == 0 ;
 	}
 	

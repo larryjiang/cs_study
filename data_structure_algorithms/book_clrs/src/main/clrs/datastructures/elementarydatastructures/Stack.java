@@ -15,5 +15,5 @@ public interface Stack<T> extends Countable<T>{
 	void push(T t);
 	
 	
-	boolean empty();
+	boolean isEmpty();
 }

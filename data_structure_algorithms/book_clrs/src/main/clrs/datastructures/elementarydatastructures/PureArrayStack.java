@@ -67,7 +67,7 @@ public class PureArrayStack<T>  implements Stack<T>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public T pop() {
-		if(empty()){
+		if(isEmpty()){
 			throw new IllegalStateException("Stack is empty: " + size);
 		}
 		
@@ -97,7 +97,7 @@ public class PureArrayStack<T>  implements Stack<T>{
 	}
 
 	@Override
-	public boolean empty(){
+	public boolean isEmpty(){
 		// TODO Auto-generated method stub
 		return size() == 0;
 	}

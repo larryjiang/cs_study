@@ -41,10 +41,10 @@ public class PureArrayQueueTest {
 	@Test
 	public void testEmpty(){
 		Queue<Object> queue = new PureArrayQueue<>();
-		assertTrue(queue.empty());
+		assertTrue(queue.isEmpty());
 		queue.enqueue(new Object());
 		queue.dequeue();
-		assertTrue(queue.empty());
+		assertTrue(queue.isEmpty());
 	}
 	
 	@Test(expected = OutOfMemoryError.class)

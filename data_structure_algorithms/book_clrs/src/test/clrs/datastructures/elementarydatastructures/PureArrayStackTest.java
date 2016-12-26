@@ -30,13 +30,13 @@ public class PureArrayStackTest {
 			assertTrue(s.size() == 9 -i);
 		}
 		
-		assertTrue(s.empty());
+		assertTrue(s.isEmpty());
 	}
 	
 	@Test
 	public void testEmpty(){
 	    Stack<Object> s = new PureArrayStack<Object>();
-	    assertTrue(s.empty());  
+	    assertTrue(s.isEmpty());  
 	}
 	
 	@Test(expected = OutOfMemoryError.class)

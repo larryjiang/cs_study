@@ -19,12 +19,12 @@ public class QueueOutOfStacks<T> implements Queue<T>{
 
 	@Override
 	public T dequeue() {
-		if(empty()){
+		if(isEmpty()){
 			throw new IllegalStateException("The Queue is empty, considering call empty method first!");
 		}
 		Stack<T> emptyStack;
 		Stack<T> nonEmptyStack;
-		if(sOne.empty()){
+		if(sOne.isEmpty()){
 			emptyStack = sOne;
 			nonEmptyStack = sTwo;
 		}else{
@@ -33,12 +33,12 @@ public class QueueOutOfStacks<T> implements Queue<T>{
 		}
 		
 		T t =  nonEmptyStack.pop();
-		while(!nonEmptyStack.empty()){
+		while(!nonEmptyStack.isEmpty()){
 			emptyStack.push(t);
 			t = nonEmptyStack.pop();
 		}
 		
-		while(!emptyStack.empty()){
+		while(!emptyStack.isEmpty()){
 			nonEmptyStack.push(emptyStack.pop());
 		}
 		
@@ -47,7 +47,7 @@ public class QueueOutOfStacks<T> implements Queue<T>{
 
 	@Override
 	public void enqueue(T t) {
-		if(sOne.empty()){
+		if(sOne.isEmpty()){
 			sTwo.push(t);
 		}else{
 			sOne.push(t);
@@ -56,7 +56,7 @@ public class QueueOutOfStacks<T> implements Queue<T>{
 	}
 
 	@Override
-	public boolean empty() {
+	public boolean isEmpty() {
 		return size() == 0;
 	}
 	
@@ -68,7 +68,7 @@ public class QueueOutOfStacks<T> implements Queue<T>{
 			assert queue.size() == i + 1;
 		}
 		
-		while(!queue.empty()){
+		while(!queue.isEmpty()){
 			System.out.println(queue.dequeue());
 		}
 		

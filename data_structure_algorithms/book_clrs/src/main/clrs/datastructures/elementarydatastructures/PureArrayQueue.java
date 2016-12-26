@@ -103,7 +103,7 @@ public class PureArrayQueue<T> implements Queue<T>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public T dequeue(){
-		if(empty()){
+		if(isEmpty()){
 			throw new IllegalStateException("Queue empty, considering calling empty() method before dequeue");
 		}
 		T t;
@@ -124,7 +124,7 @@ public class PureArrayQueue<T> implements Queue<T>{
 	}
 
 	@Override
-	public boolean empty() {
+	public boolean isEmpty() {
 		// TODO Auto-generated method stub
 		return size == 0;
 	}

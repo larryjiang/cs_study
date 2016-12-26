@@ -9,4 +9,6 @@ public interface Countable<T> {
 	
 	int size();
 	
+	boolean isEmpty();
+	
 }

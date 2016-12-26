@@ -14,6 +14,6 @@ public interface Queue<T> extends Countable<T>{
 	void enqueue(T t);
 	
 	
-	boolean empty();
+	boolean isEmpty();
 	
 }
