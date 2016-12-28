@@ -8,6 +8,8 @@ public interface LinkedList<T> extends List<T>{
 	
 	T getHead();
 	
+	T getTail();
+	
 	Node<T> getHeadNode();
 	
 	Node<T> getTailNode();
