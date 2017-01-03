@@ -4,9 +4,6 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.omg.PortableServer.ServantRetentionPolicyValue;
-
-
 /**
  * 
  * @author larry
@@ -146,7 +143,7 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 	}
 	
 	
-	  T unlink(Node<T> e){
+	  T unlinkNode(Node<T> e){
 		final Node<T> pre = e.pre;
 		final Node<T> next = e.next;
 		
@@ -169,23 +166,65 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 		modeCount++;
 		return e.getValue();
 	}
-	
-	void linkFirst(Node<T> e){
+	  
+	T unlinkFirstNode(){
+		
+		
+	}
+	  
+	T unlinkLastNode(){
+		
+		
+	}
+	  
+	void linkFirstNode(Node<T> e){
 		if(head == null){
-			head = e;
 			tail = e;
 		}else{
-			Node<T> firstNode = head;
-			firstNode.pre = e;
-			e.next = firstNode;
-			head = e;
+			head.pre = e;
 		}
+		e.next = head;
+		e.pre = null;
+		head = e;
 		size++;
 		modeCount++;
 	}
 	  
-	  
-	  
+	void linkLastNode(Node<T> e){
+		
+		if(head == null){
+			head = e;
+		}else{
+			tail.next = e;
+		}
+		e.pre = tail;
+		e.next = null;
+		tail = e;
+		size++;
+		modeCount++;
+	} 
+	
+	void linkBefore(Node<T> e, Node<T> succ){
+		if(succ == null){
+			throw new NullPointerException();
+		}
+		
+		if(succ == head){
+			head = e;
+		}else{
+			succ.pre.next = e;
+		}
+		
+		e.next = succ;
+		e.pre = succ.pre;
+		succ.pre = e;
+		size++;
+		modeCount++;
+	}
+	
+	
+	
+	
 	
 	@Override
 	public void insert(int index, T element) {
