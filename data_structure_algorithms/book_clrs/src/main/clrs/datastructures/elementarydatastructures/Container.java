@@ -23,7 +23,7 @@ public interface Container<T> extends Countable<T>, Iterable<T>{
 	
 	void clear();
 	
-	boolean retainAll();
+	boolean retainAll(Container<T> s);
 	
 	/**
 	 * @return a set of unique values in this Container.

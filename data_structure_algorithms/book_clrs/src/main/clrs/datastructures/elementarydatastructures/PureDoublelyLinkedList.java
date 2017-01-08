@@ -1,5 +1,6 @@
 package main.clrs.datastructures.elementarydatastructures;
 
+import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -72,12 +73,11 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 	}
 	
 	private boolean isValidIndex(int x){
-		
-		if(x < 0 || x >= size ){
-			return false;
-		}
-		
-		return true;
+		return x >=0 && x < size;
+	}
+	
+	private boolean isValidPosition(int x){
+		return x >= 0 && x <= size;
 	}
 	
 	
@@ -90,7 +90,7 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 	}
 	
 	private class ListIterator implements Iterator<T>{
-	
+		Node<T> lastReturned = null;
 		Node<T> current;
 		
 		int expectedModeCount;
@@ -104,7 +104,7 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 		}
 		
 		public ListIterator(Node<T> cur) {
-			if(cur == null || cur.getValue() == null){
+			if(cur == null){
 				throw new NullPointerException();
 			}
 		
@@ -114,7 +114,7 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 			current = cur;
 			expectedModeCount = modeCount;
 		}
-		
+
 		@Override
 		public boolean hasNext() {
 			return (current != null);
@@ -123,16 +123,27 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 		@Override
 		public T next() {
 			checkForModification();
-			Node<T> returned;
-			returned = current;
+			if(!hasNext()){
+				throw new IllegalArgumentException("No next element");
+			}
+			lastReturned = current;
  			current = current.next;
-			return returned.getValue();
+			return lastReturned.getValue();
 		}
 
 		@Override
 		public void remove() {
 			// TODO Auto-generated method stub
+			checkForModification();
+			if(lastReturned == null){
+				throw new IllegalStateException("No current element.");
+			}
 			
+			//the difference of this from a standard implementation is that 
+			//the standard edition considered iterating backward.
+			unlinkNode(lastReturned);
+			expectedModeCount++;
+			lastReturned = null;
 		}
 		
 		final void checkForModification(){
@@ -168,13 +179,40 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 	}
 	  
 	T unlinkFirstNode(){
+		T value = head.getValue();
+		Node<T> next = head.next;
 		
+		head.t = null;
+		head.next = null;
 		
+		if(next == null){
+			tail = null;
+		}else{
+			next.pre = null;
+		}
+		head = next;
+		size--;
+		modeCount++;
+		return value;
 	}
 	  
 	T unlinkLastNode(){
+		T value = tail.getValue();
+		Node<T> pre = tail.pre;
 		
+		tail.t = null;
+		tail.pre = null;
 		
+		if(pre == null){
+			head = null;
+		}else{
+			pre.next = null;
+		}
+		
+		tail = pre;
+		size--;
+		modeCount++;
+		return value;
 	}
 	  
 	void linkFirstNode(Node<T> e){
@@ -224,48 +262,123 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 	
 	
 	
+	private void checkIndex(int x){
+		if(!isValidIndex(x)){
+			throw new IndexOutOfBoundsException("Index " + x);
+		}
+	}
+	
+	private void checkPosition(int x){
+		if(!isValidPosition(x)){
+			throw new IndexOutOfBoundsException("Position " + x);
+		}
+	}
+	
 	
 	
 	@Override
 	public void insert(int index, T element) {
+		checkPosition(index);
+		Node<T> node = new Node<T>(element);
 		
+		if(index == 0){
+			linkFirstNode(node);
+		}else if(index == size){
+			linkLastNode(node);
+		}else{
+			Node<T> succ = getNode(index);
+			linkBefore(node, succ);
+		}
 	}
 
 	@Override
 	public void delete(int index) {
-		// TODO Auto-generated method stub
-		
+		checkIndex(index);
+		Node<T> node = getNode(index);
+		unlinkNode(node);
 	}
 
 	@Override
 	public int firstIndexOf(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+		int index = 0;
+		if(o == null){
+			for(T t : this){
+				if(t == o){
+					return index;
+				}
+				index++;
+			}
+		}else{
+			for(T t : this){
+				if(o.equals(t)){
+					return index;
+				}
+				index++;
+			}
+			
+		}
+		return -1;
 	}
 
 	@Override
 	public int lastIndexOf(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+		int index = size -1;
+		Node<T> node = tail;
+		if(o == null){
+			while(node != null){
+				if(node.getValue()== o){
+					return index;
+				}
+				index--;
+				node = node.pre;
+			}
+		}else{
+			while(node != null){
+				if(o.equals(node.getValue())){
+					return index;
+				}
+				index--;
+				node = node.pre;
+			}
+			
+		}
+		return -1;
 	}
 
 	@Override
 	public int[] searchOccurrence(Object o) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Integer> oList = new ArrayList<>();
+		
+		int index = 0;
+		Node<T> node = head;
+		if(o==null){
+			while(node != null){
+				if(node.getValue() == o){
+					oList.add(index);
+				}
+				node = node.next;
+			}
+		}else{
+			while(node != null){
+				if(o.equals(node.getValue())){
+					oList.add(index);
+				}
+				node = node.next;
+			}
+		}
+		return oList.stream().mapToInt(i -> i).toArray();
 	}
 
 	@Override
 	public void set(int index, T element) {
-		// TODO Auto-generated method stub
 		
+		Node<T> node = getNode(index);
+		node.setValue(element);
 	}
 
 	
 	public Node<T> getNode(int index){
-		if(!isValidIndex(index)){
-			throw new IndexOutOfBoundsException("Index out of Bound " + index);
-		}
+		checkIndex(index);
 		Node<T> current = head;
 		while(index > 0){
 			current = current.next;
@@ -282,13 +395,15 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 	@Override
 	public T dequeue() {
 		// TODO Auto-generated method stub
-		return null;
+		T result = this.get(0);
+		unlinkFirstNode();
+		return result;
 	}
 
 	@Override
 	public void enqueue(T t) {
 		// TODO Auto-generated method stub
-		
+		this.add(t);
 	}
 
 	@Override
@@ -306,86 +421,144 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 	@Override
 	public T pop() {
 		// TODO Auto-generated method stub
-		return null;
+		T result = get(this.size -1);
+		unlinkLastNode();
+		return result;
 	}
 
 	@Override
 	public void push(T t) {
 		// TODO Auto-generated method stub
-		
+		this.add(t);
 	}
 
 	@Override
 	public boolean contains(Object o) {
-		// TODO Auto-generated method stub
-		return false;
+		return firstIndexOf(o) != -1;
 	}
-
+	
+	/**
+	 * This always returns true since in the definition of 
+	 * add in java collection interface.
+	 * 
+	 */
 	@Override
 	public boolean add(T e) {
-		// TODO Auto-generated method stub
-		return false;
+		Node<T> node = new Node<T>(e);
+		linkLastNode(node);
+		return true;
 	}
 
 	@Override
 	public boolean addAll(Container<T> t) {
 		// TODO Auto-generated method stub
-		return false;
+		if(t.size() == 0){
+			return false;
+		}
+		
+		for(T e : t){
+			add(e);
+		};
+		
+		return true;
 	}
-
+	
 	@Override
 	public boolean remove(Object o) {
-		// TODO Auto-generated method stub
-		return false;
+		int index = firstIndexOf(o);
+		if(index < 0){
+			return false;
+		}else{
+			delete(index);
+			return true;
+		}
 	}
 
 	@Override
 	public boolean containsAll(Container<T> s) {
 		// TODO Auto-generated method stub
-		return false;
+		for(T t : s){
+			if(this.contains(t)){
+				continue;
+			}else{
+				return false;
+			}
+		};
+		
+		return true;
 	}
 
 	@Override
 	public boolean removeAll(Container<T> s) {
 		// TODO Auto-generated method stub
-		return false;
+		if(isEmpty()){
+			return false;
+		}
+		
+		for(T t : s){
+			this.remove(s);
+		}
+		
+		return true;
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		Node<T> next;
+		for(Node<T> first = head; head != null;){
+			next = first.next;
+			first.setValue(null);
+			first.next = null;
+			first.pre = null;
+			first = next;
+		};
+		head = tail = null;
+		size = 0;
+		modeCount++;
 	}
 
 	@Override
-	public boolean retainAll() {
+	public boolean retainAll(Container<T> s) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException();
+		//return false;
 	}
 
 	@Override
 	public Set<T> values() {
 		// TODO Auto-generated method stub
-		return null;
+		
+		throw new UnsupportedOperationException();
+		//return null;
 	}
 
 	@Override
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ListIterator(0);
 	}
 
 	@Override
 	public Set<main.clrs.datastructures.elementarydatastructures.LinkedList.Node<T>> NodeSet() {
 		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
+		//return null;
 	}
 
 	@Override
 	public main.clrs.datastructures.elementarydatastructures.LinkedList.Node<T>[] getNodes(
 			Object o) {
 		// TODO Auto-generated method stub
-		return null;
+		@SuppressWarnings("unchecked")
+		Node<T>[] nodes = new Node[size];
+		Node<T> node = head;
+		int i = 0;
+		while(node != null){
+			nodes[i] = node;
+			i++;
+			node = node.next;
+		}
+		
+		return nodes;
 	}
 
 	@Override
