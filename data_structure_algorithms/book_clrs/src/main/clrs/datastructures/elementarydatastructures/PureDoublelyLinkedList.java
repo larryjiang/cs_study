@@ -505,7 +505,7 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 	@Override
 	public void clear() {
 		Node<T> next;
-		for(Node<T> first = head; head != null;){
+		for(Node<T> first = head; first != null;){
 			next = first.next;
 			first.setValue(null);
 			first.next = null;
@@ -589,6 +589,13 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 			return null;
 		}
 		return getTailNode().getValue();
+	}
+
+	@Override
+	public void add(int index, T element) {
+		checkIndex(index);
+		Node<T> node = getNode(index);
+		linkBefore(new Node<>(element), node);
 	}
 
 }

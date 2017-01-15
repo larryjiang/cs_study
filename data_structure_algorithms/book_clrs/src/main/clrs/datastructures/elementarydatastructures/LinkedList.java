@@ -1,6 +1,6 @@
 package main.clrs.datastructures.elementarydatastructures;
 
-public interface LinkedList<T> extends List<T>{
+public interface LinkedList<T> extends List<T>, Queue<T>, Stack<T>{
 
 	Set<Node<T>> NodeSet();
 	

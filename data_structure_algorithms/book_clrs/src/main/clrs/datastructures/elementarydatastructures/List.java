@@ -1,7 +1,7 @@
 package main.clrs.datastructures.elementarydatastructures;
 
 
-public interface List<T> extends Queue<T>, Stack<T>, Container<T>, Iterable<T>{
+public interface List<T> extends  Container<T>, Iterable<T>{
 	
 	void insert(int index, T element);
 	
@@ -14,6 +14,8 @@ public interface List<T> extends Queue<T>, Stack<T>, Container<T>, Iterable<T>{
 	int[] searchOccurrence(Object o);
 	
 	void set(int index, T element);
+	
+	void add(int index, T element);
 	
 	T get(int index);
 	
