@@ -1,3 +1,4 @@
 #this is the git ignore file
 
 .*.java
+.*.swp
