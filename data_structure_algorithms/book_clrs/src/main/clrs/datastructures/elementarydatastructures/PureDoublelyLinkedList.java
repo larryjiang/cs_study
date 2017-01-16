@@ -357,6 +357,7 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 					oList.add(index);
 				}
 				node = node.next;
+				index++;
 			}
 		}else{
 			while(node != null){
@@ -364,6 +365,7 @@ public class PureDoublelyLinkedList<T> implements LinkedList<T>{
 					oList.add(index);
 				}
 				node = node.next;
+				index++;
 			}
 		}
 		return oList.stream().mapToInt(i -> i).toArray();
