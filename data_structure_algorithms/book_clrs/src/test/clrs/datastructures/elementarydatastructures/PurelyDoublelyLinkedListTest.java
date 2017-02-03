@@ -12,6 +12,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 public class PurelyDoublelyLinkedListTest {
 	
 	private  PureDoublelyLinkedList<Object> list = null;
@@ -135,6 +137,7 @@ public class PurelyDoublelyLinkedListTest {
 		assertTrue(fourth == 3);
 		int[] ns = list.searchOccurrence(s);
 		assertArrayEquals(new int[]{1,3}, ns);
+		list.clear();
 	}
 	
 	@Test
@@ -165,7 +168,47 @@ public class PurelyDoublelyLinkedListTest {
 		assertTrue(result1.get(1) == s);
 		assertTrue(result1.get(2) == t);
 		assertTrue(result1.get(3) == s);
+		list.clear();
 	}
+	
+	@Test
+	public void testRemove(){
+		Object f,s,t;
+		list.add(f = new Object());
+		list.add(s=new Object());
+		list.add(t = new Object());
+		list.add(s);
+		
+		list.remove(s);
+		assertTrue(list.get(1) == t);
+		assertTrue(list.get(2) == s);
+		list.remove(f);
+		assertTrue(list.getHead() == t);
+		assertTrue(list.getTail() == s);
+		assertTrue(list.get(0) == t);
+		assertTrue(list.get(1) == s);
+	}
+	
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testInsert(){
+		Object f,s,t;
+		list.add(f = new Object());
+		list.add(s=new Object());
+		list.add(t = new Object());
+		list.add(s);
+		
+		Object fouth;
+		list.insert(0, fouth = new Object());
+		assertTrue(fouth == list.getHead());
+		assertTrue(f == list.get(1));
+		assertTrue(list.size() == 5);
+		Object last;
+		list.insert(5, last = new Object());
+		assertTrue(last == list.getTail());
+		assertTrue(list.size() == 6);
+		list.insert(7, last);
+	}
+	
 	
 	
 	@After
