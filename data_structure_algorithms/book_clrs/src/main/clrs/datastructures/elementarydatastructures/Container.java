@@ -1,6 +1,6 @@
 package main.clrs.datastructures.elementarydatastructures;
 
-public interface Container<T> extends Countable<T>, Iterable<T>{
+public interface Container<T> extends Countable, Iterable<T>{
 	
 	boolean contains(Object o);
 	

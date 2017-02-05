@@ -6,7 +6,7 @@ package main.clrs.datastructures.elementarydatastructures;
  *
  * @param <T>
  */
-public interface Stack<T> extends Countable<T>{
+public interface Stack<T> extends Countable{
 
 	
 	T pop();

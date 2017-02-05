@@ -5,7 +5,7 @@ package main.clrs.datastructures.elementarydatastructures;
  *
  * @param <T>
  */
-public interface Queue<T> extends Countable<T>{
+public interface Queue<T> extends Countable{
 	
 	
 	T dequeue();

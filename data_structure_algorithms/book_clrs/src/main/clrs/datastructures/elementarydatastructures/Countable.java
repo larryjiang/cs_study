@@ -3,9 +3,8 @@ package main.clrs.datastructures.elementarydatastructures;
  * 
  * @author larry
  *
- * @param <T>
  */
-public interface Countable<T> {
+public interface Countable{
 	
 	int size();
 	
