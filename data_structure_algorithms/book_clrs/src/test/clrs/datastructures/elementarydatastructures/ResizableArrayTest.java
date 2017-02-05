@@ -8,9 +8,6 @@ import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import com.sun.org.apache.xml.internal.dtm.ref.DTMDefaultBaseIterators.TypedSingletonIterator;
-
 import main.clrs.datastructures.elementarydatastructures.ResizableArray;
 
 public class ResizableArrayTest {
@@ -381,8 +378,6 @@ public class ResizableArrayTest {
 			assertTrue(e instanceof IllegalStateException);
 		}
 		assertTrue(!ite.hasNext());
-		
-		
 	}
 	
 	
