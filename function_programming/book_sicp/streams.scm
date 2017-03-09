@@ -17,7 +17,7 @@
 	(stream-for-each proc (stream-cdr s)))))
 
 (define (display-stream s)
-  (stream-for-each display s))
+  (stream-for-each display-line s))
 
 (define (display-line x)
   (newline)
@@ -38,3 +38,34 @@
 
 (define (second-prime low high)
   (stream-car (stream-cdr (stream-filter prime? (stream-enumerate-interval low high)))))
+
+;; exercise 3.50 
+
+;;exercise 3.51
+(define (show x)
+  (display-line x)
+  x)
+
+(define exercise351 (stream-map show (stream-enumerate-interval 0 10)))
+
+(define sum 0)
+
+(define (accum x)
+  (set! sum (+ x sum))
+  sum)
+
+(define seq (stream-map accum (stream-enumerate-interval 1 20)))
+
+(define y (stream-filter even? seq))
+
+(define z (stream-filter (lambda (x) (= (remainder x 5) 0)) seq))
+
+(define (integers-starting-from n)
+  (cons-stream n (integers-starting-from (+ n 1))))
+(define integers (integers-starting-from 1))
+
+(define (divisible? x y) (= (remainder x y) 0))
+
+(define no-sevens (stream-filter (lambda (x) (not (divisible? x 7))) integers))
+
+

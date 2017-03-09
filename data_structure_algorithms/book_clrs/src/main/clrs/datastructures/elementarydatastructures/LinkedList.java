@@ -21,7 +21,6 @@ public interface LinkedList<T> extends List<T>, Queue<T>, Stack<T>{
 		Node<T> next();
 		
 		Node<T> prev();
-		
 	}
 	
 }
