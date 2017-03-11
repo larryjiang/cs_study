@@ -40,6 +40,14 @@
   (stream-car (stream-cdr (stream-filter prime? (stream-enumerate-interval low high)))))
 
 ;; exercise 3.50 
+(define (general-stream-map proc . argstreams)
+  (if (stream-null? (car argstreams))
+      the-empty-stream
+      (cons-stream
+       (apply proc (map stream-car argstreams))
+       (apply general-stream-map
+	      (cons proc (map stream-cdr argstreams))))))
+
 
 ;;exercise 3.51
 (define (show x)
@@ -67,5 +75,51 @@
 (define (divisible? x y) (= (remainder x y) 0))
 
 (define no-sevens (stream-filter (lambda (x) (not (divisible? x 7))) integers))
+
+(define (fibgen a b)
+  (cons-stream a (fibgen b (+ a b))))
+
+(define fibs (fibgen 0 1))
+
+;; extremely elegant program!!!! 
+;; we should notice that cons-stream is of the form
+;; (cons a (delay <b>))
+(define (sieve stream)
+  (cons-stream
+   (stream-car stream)
+   (sieve
+    (stream-filter (lambda (x) (not (divisible? x (stream-car stream)))) 
+		   (stream-cdr stream)))))
+
+(define primes (sieve (integers-starting-from 2)))
+
+(define ones (cons-stream 1 ones))
+
+(define (add-streams s1 s2)
+  (general-stream-map + s1 s2))
+
+(define itgs (cons-stream 1 (add-streams ones itgs)))
+
+(define s-fibs
+  (cons-stream 0
+	       (cons-stream 1 
+			    (add-streams s-fibs
+					 (stream-cdr s-fibs)))))
+
+(define (scale-stream stream factor) 
+  (stream-map (lambda (x) (* x factor)) stream))
+
+(define double (cons-stream 1 (scale-stream double 2)))
+
+(define prms
+  (cons-stream 2
+	       (stream-filter is-prime? (integers-starting-from 3))))
+
+(define (is-prime n)
+  (define (iter ps)
+    (cond ((> (square (stream-car ps)) n) #t)
+	  ((divisible? n (stream-car ps)) #f)
+	  (else (iter (stream-cdr ps)))))
+  (iter prms))
 
 
