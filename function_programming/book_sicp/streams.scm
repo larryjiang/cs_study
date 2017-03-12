@@ -115,11 +115,33 @@
   (cons-stream 2
 	       (stream-filter is-prime? (integers-starting-from 3))))
 
-(define (is-prime n)
+(define (is-prime? n)
   (define (iter ps)
     (cond ((> (square (stream-car ps)) n) #t)
 	  ((divisible? n (stream-car ps)) #f)
 	  (else (iter (stream-cdr ps)))))
   (iter prms))
 
+(define s (cons-stream 1 (add-streams s s)))
 
+(define factorials (cons-stream 1 (mul-streams (stream-cdr integers) factorials)))
+(define (mul-streams s1 s2)
+  (general-stream-map * s1 s2))
+(define (partial-sums s)
+  (cons-stream (stream-car s)
+	       (cons-stream (+ (stream-car s) (stream-car (stream-cdr s)))
+			    (add-streams (stream-cdr (partial-sums s)) (stream-cdr (stream-cdr s))))))
+(define (merge s1 s2)
+  (cond ((stream-null? s1) s2)
+	((stream-null? s2) s1)
+	(else 
+	 (let ((s1-car (stream-car s1))
+	       (s2-car (stream-car s2)))
+	   (cond ((< s1-car s2-car)
+		  (cons-stream s1-car (merge (stream-cdr s1) s2)))
+		 ((> s1-car s2-car)
+		  (cons-stream s2-car (merge (stream-cdr s2) s1)))
+		 (else 
+		  (cons-stream s1-car (merge (stream-cdr s1) (stream-cdr s2)))))))))
+
+(define S (cons-stream 1 (merge (scale-stream S 2) (merge (scale-stream S 3) (scale-stream S 5)))))
