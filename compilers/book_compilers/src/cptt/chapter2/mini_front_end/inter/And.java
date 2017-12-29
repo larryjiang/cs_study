@@ -15,7 +15,7 @@ public class And extends Logical{
 		getExpr1().jumping(0, label);
 		getExpr2().jumping(t, f);
 		if(f == 0) {
-			emitlabel(label);
+			emitLabel(label);
 		}
 	}
 	

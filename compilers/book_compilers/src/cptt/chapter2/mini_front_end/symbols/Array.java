@@ -15,4 +15,17 @@ public class Array extends Type {
 	public String toString() {
 		return "[" + size + "] " + of.toString();
 	}
+	
+	public Type getType() {
+		return of;
+	}
+	
+	public boolean equals(Array a) {
+		if(!super.equals(a)) {
+			return false;
+		}
+		
+		return of.equals(a.getType());
+		
+	}
 }

@@ -16,4 +16,14 @@ public class Num extends Token {
 		return value;
 	} 
 	
+	public boolean equals(Num t) {
+		if(!super.equals(t)) {
+			return false;
+		}		
+		return this.value() == t.value();
+	}
+	
+	
+
+	
 }

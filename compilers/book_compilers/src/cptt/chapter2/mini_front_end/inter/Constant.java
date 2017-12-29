@@ -31,11 +31,11 @@ public class Constant extends Expr {
 		}
 	}
 	
-	public Constant getContantTrue() {
+	public static Constant getContantTrue() {
 		return True;
 	}
 	
-	public Constant getConstatnFlase() {
+	public static Constant getConstatnFlase() {
 		return False;
 	}
 	

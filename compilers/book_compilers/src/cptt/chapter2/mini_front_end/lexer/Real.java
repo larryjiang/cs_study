@@ -16,5 +16,13 @@ public class Real extends Token {
 		return value;
 	}
 	
+	public boolean equals(Real r) {
+		if(!super.equals(r)) {
+			return false;
+		}
+		
+		return Float.compare(this.value(), r.value()) == 0;
+	}
 	
+
 }

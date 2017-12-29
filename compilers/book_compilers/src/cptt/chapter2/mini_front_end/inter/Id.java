@@ -6,7 +6,7 @@ import cptt.chapter2.mini_front_end.symbols.Type;
 public class Id extends Expr{
 	private int offset;
 	
-	Id(Token tok, Type p, int b) {
+	public Id(Token tok, Type p, int b) {
 		super(tok, p);
 		this.offset = b;
 	}

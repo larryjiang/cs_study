@@ -39,7 +39,8 @@ public class Word extends Token{
 	
 	public static final Map<Tag,Word> PREDEFINEDWORDS = new HashMap<>(); 
 	static {
-		Word[] t = new Word[] {AND, EQ, NE, LE, GE, MINUS, TRUE, FALSE, TEMP};
+		Word[] t = new Word[] {AND, OR, EQ, NE, LE, GE, MINUS, TRUE, FALSE, 
+							   TEMP, BITWISEAND, BITWISEOR, LT, GT, EXCLAMATION};
 		for(Word w : t) {
 			PREDEFINEDWORDS.put(w.getTag(), w);
 		}
@@ -49,4 +50,11 @@ public class Word extends Token{
 		return PREDEFINEDWORDS.get(tag);
 	}
 
+	public boolean equals(Word w) {
+		if(!super.equals(w)) {
+			return false;
+		}
+		
+		return this.getLexeme().equals(w.getLexeme());
+	}
 }

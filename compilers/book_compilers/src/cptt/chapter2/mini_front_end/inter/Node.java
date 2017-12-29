@@ -18,7 +18,7 @@ public class Node {
 		return ++labels;
 	}
 	
-	public void emitlabel(int i) {
+	public void emitLabel(int i) {
 		System.out.print("L" + i + ":");
 	}
 	

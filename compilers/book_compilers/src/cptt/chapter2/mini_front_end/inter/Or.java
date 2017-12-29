@@ -16,7 +16,7 @@ public class Or extends Logical {
 		getExpr1().jumping(label, 0);
 		getExpr2().jumping(t, f);
 		if(t == 0) {
-			emitlabel(label);
+			emitLabel(label);
 		}
 	}
 	

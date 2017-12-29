@@ -37,9 +37,9 @@ public class Logical extends Expr{
 		this.jumping(0, f);
 		emit(temp.toString() + " =true");
 		emit("goto L" + a);
-		emitlabel(f);
+		emitLabel(f);
 		emit(temp.toString() + " =false");
-		emitlabel(a);
+		emitLabel(a);
 		return temp;
 	}
 	

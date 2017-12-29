@@ -5,7 +5,7 @@ import cptt.chapter2.mini_front_end.symbols.Type;
 
 public class Unary extends Op {
 	private Expr expr;
-	Unary(Token tok, Expr x) {
+	public Unary(Token tok, Expr x) {
 		super(tok, null);
 		this.expr = x;
 		Type type = Type.max(Type.Int, expr.getType());

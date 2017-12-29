@@ -15,7 +15,9 @@ public class Type extends Word{
 		return width;
 	}
 	
-	
+	public String toString() {
+		return super.toString() + width;
+	}
 	
 	public static final Type  Int = new Type("int", Tag.BASIC, 4);
 	public static final Type Float = new Type("float", Tag.BASIC, 8);
@@ -31,7 +33,7 @@ public class Type extends Word{
 	}
 	
 	public static Type max(Type p1, Type p2) {
-		if(!numeric(p1) && !numeric(p2)) {
+		if(!numeric(p1) || !numeric(p2)) {
 			return null;
 		}else if( p1 == Type.Float || p2 == Type.Float) {
 			return Type.Float;
@@ -40,6 +42,15 @@ public class Type extends Word{
 		}else {
 			return Type.Char;
 		}
+	}
+	
+	public boolean equals(Type t) {
+		if(!super.equals(t)) {
+			return false;
+		}
+		
+		return this.getWidth() == t.getWidth();
+		
 	}
 	
 }

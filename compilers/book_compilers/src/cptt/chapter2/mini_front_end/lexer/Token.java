@@ -1,8 +1,9 @@
 package cptt.chapter2.mini_front_end.lexer;
 
+
 public class Token {
 	
-	private final Tag tag;
+	protected final Tag tag;
 	
 	public Token(Tag tag) {
 		this.tag = tag;
@@ -14,6 +15,33 @@ public class Token {
 	
 	public Tag getTag() {
 		return tag;
+	}
+	
+	public boolean equals(Token t) {
+		if(this == t) {
+			return true;
+		}
+		
+		if(t == null) {
+			return false;
+		}
+		
+		if(this.getClass() != t.getClass()) {
+			return false;
+		}
+		
+		return this.tag == t.tag;
+	}
+	
+	public int hashCode() {
+		String id = this.getClass().getName() + super.hashCode() + tag.hashCode() + tag.getOrdinal() + this.toString();
+		return id.hashCode();
+	}
+	
+	// for testing
+	public String getIdentityString() {
+		String id = this.getClass().getName() + super.hashCode() + tag.hashCode() + tag.getOrdinal() + this.toString();
+		return id;
 	}
 	
 }
