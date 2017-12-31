@@ -142,7 +142,7 @@ public class Parser {
 			match(getRawChar('('));
 			x = bool();
 			match(getRawChar(')'));
-			s1 = stmts();
+			s1 = stmt();
 			if (lookahead.getTag() != Tag.ELSE) {
 				return new If(x, s1);
 			}
@@ -154,10 +154,10 @@ public class Parser {
 			savedStmt = Stmt.ENCLOSING;
 			Stmt.ENCLOSING = whileNode;
 			match(Tag.WHILE);
-			match(getRawChar(')'));
+			match(getRawChar('('));
 			x = bool();
 			match(getRawChar(')'));
-			s1 = stmts();
+			s1 = stmt();
 			whileNode.init(x, s1);
 			Stmt.ENCLOSING = savedStmt;
 			return whileNode;
@@ -166,7 +166,7 @@ public class Parser {
 			savedStmt = Stmt.ENCLOSING;
 			Stmt.ENCLOSING = doNode;
 			match(Tag.DO);
-			s1 = stmts();
+			s1 = stmt();
 			match(Tag.WHILE);
 			match(getRawChar('('));
 			x = bool();
@@ -175,6 +175,10 @@ public class Parser {
 			doNode.init(x, s1);
 			Stmt.ENCLOSING = savedStmt;
 			return doNode;
+		case BREAK:
+			match(Tag.BREAK);
+			match(getRawChar(';'));
+			return new Break();
 		case RAWCHAR:
 			RawChar rc = (RawChar) lookahead;
 			if (rc.getChar() == ';') {
@@ -185,10 +189,6 @@ public class Parser {
 			if (rc.getChar() == '{') {
 				return block();
 			}
-		case BREAK:
-			match(Tag.BREAK);
-			match(getRawChar(';'));
-			return new Break();
 		default:
 			return assign();
 		}
@@ -202,14 +202,15 @@ public class Parser {
 		if (id == null) {
 			error(t.toString() + " undeclared");
 		}
-		if (lookahead.equals(getRawChar('='))) {
+		if (lookahead.getTag() == Tag.ASSIGN) {
 			move();
 			stmt = new Set(id, bool());
 		} else {
 			Access x = offset(id);
-			match(getRawChar('='));
+			match(Word.ASSIGN);
 			stmt = new SetElem(x, bool());
 		}
+		match(getRawChar(';'));
 		return stmt;
 	}
 
@@ -314,7 +315,7 @@ public class Parser {
 				String s = ((Word)lookahead).getLexeme();
 				Id id = top.get(lookahead);
 				if(id == null) {
-					error(lookahead.toString() + " undeclared");
+					error(s + " undeclared");
 				}
 				move();
 				if(!lookahead.equals(getRawChar('['))) {
@@ -345,7 +346,7 @@ public class Parser {
 		Expr loc;
 		Type type = a.getType();
 		match(getRawChar('['));
-		i = expr();
+		i = bool();
 		match(getRawChar(']'));
 		type  = ((Array)type).getType();
 		w = new Constant(type.getWidth());
@@ -353,7 +354,7 @@ public class Parser {
 		loc = t1;
 		while(lookahead.equals(getRawChar('['))) {
 			match(getRawChar('['));
-			i = expr();
+			i = bool();
 			match(getRawChar(']'));
 			w = new Constant(type.getWidth());
 			t1 = new Arith(getRawChar('*'), i, w);

@@ -11,9 +11,11 @@ public class Rel extends Logical{
 		super(tok,x1,x2);
 	}
 	
+	@Override
 	public Type check(Type p1, Type p2) {
 		
-		if(p1 == p2 && !(p1 instanceof Array)) {
+		
+		if(p1.equals(p2) && !(p1 instanceof Array)) {
 			return Type.Bool;
 		}
 		

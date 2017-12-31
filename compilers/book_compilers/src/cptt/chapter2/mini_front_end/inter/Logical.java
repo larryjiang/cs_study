@@ -15,14 +15,15 @@ public class Logical extends Expr{
 		super(tok, null);
 		this.expr1 = x1;
 		this.expr2 = x2;
-		if(check(expr1.getType(), expr2.getType())  == null) {
+		Type type = check(expr1.getType(), expr2.getType()); 
+		if(type  == null) {
 			error("Type Error");
 		}
-		
+		this.type = type;
 	}
 	
-	private Type check(Type p1, Type p2) {
-		if(p1 == Type.Bool && p2 == Type.Bool) {
+	public Type check(Type p1, Type p2) {
+		if(p1.equals( Type.Bool) && p2.equals( Type.Bool)) {
 			return Type.Bool;
 		}
 		

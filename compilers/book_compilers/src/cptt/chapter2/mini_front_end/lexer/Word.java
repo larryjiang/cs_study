@@ -50,11 +50,11 @@ public class Word extends Token{
 		return PREDEFINEDWORDS.get(tag);
 	}
 
-	public boolean equals(Word w) {
+	public boolean equals(Object w) {
 		if(!super.equals(w)) {
 			return false;
 		}
-		
-		return this.getLexeme().equals(w.getLexeme());
+		Word other = (Word)w;
+		return this.getLexeme().equals(other.getLexeme());
 	}
 }

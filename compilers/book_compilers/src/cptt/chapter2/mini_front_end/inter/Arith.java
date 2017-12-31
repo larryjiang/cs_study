@@ -15,6 +15,9 @@ public class Arith extends Op {
 		if(type == null) {
 			error("Type Error");
 		}
+		
+		this.type = type;
+		
 	}
 	
 	public Expr gen() {

@@ -44,12 +44,12 @@ public class Type extends Word{
 		}
 	}
 	
-	public boolean equals(Type t) {
+	public boolean equals(Object t) {
 		if(!super.equals(t)) {
 			return false;
 		}
-		
-		return this.getWidth() == t.getWidth();
+		Type other = (Type)t;
+		return this.getWidth() == other.getWidth();
 		
 	}
 	

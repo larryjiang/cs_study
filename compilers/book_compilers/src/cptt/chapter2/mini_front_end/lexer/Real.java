@@ -20,8 +20,9 @@ public class Real extends Token {
 		if(!super.equals(r)) {
 			return false;
 		}
+		Real other = (Real)r;
 		
-		return Float.compare(this.value(), r.value()) == 0;
+		return Float.compare(this.value(), other.value()) == 0;
 	}
 	
 

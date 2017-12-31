@@ -4,8 +4,8 @@ import cptt.chapter2.mini_front_end.lexer.Token;
 import cptt.chapter2.mini_front_end.symbols.Type;
 
 public class Expr extends Node{
-	private Token op;
-	private Type type;
+	protected Token op;
+	protected Type type;
 	
 	Expr(Token tok, Type p){
 		this.op = tok;

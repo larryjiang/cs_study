@@ -20,12 +20,12 @@ public class Array extends Type {
 		return of;
 	}
 	
-	public boolean equals(Array a) {
+	public boolean equals(Object a) {
 		if(!super.equals(a)) {
 			return false;
 		}
-		
-		return of.equals(a.getType());
+		Array other = (Array)a;
+		return of.equals(other.getType());
 		
 	}
 }

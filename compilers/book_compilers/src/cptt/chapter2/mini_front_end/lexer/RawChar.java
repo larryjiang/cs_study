@@ -22,12 +22,14 @@ public class RawChar extends Token {
 		return c;
 	}
 	
-	public boolean equals(RawChar rc) {
+	public boolean equals(Object rc) {
 		if(!super.equals(rc)) {
 			return false;
 		}
 		
-		return this.getChar() == rc.getChar();
+		RawChar other = (RawChar) rc;
+		
+		return this.getChar() == other.getChar();
 	}
 	
 	public static RawChar getRawChar(char c) {

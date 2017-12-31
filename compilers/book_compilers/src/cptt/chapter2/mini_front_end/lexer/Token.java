@@ -17,7 +17,7 @@ public class Token {
 		return tag;
 	}
 	
-	public boolean equals(Token t) {
+	public boolean equals(Object t) {
 		if(this == t) {
 			return true;
 		}
@@ -30,7 +30,9 @@ public class Token {
 			return false;
 		}
 		
-		return this.tag == t.tag;
+		Token other = (Token)t;
+		
+		return this.tag == other.tag;
 	}
 	
 	public int hashCode() {

@@ -106,6 +106,7 @@ public class Lexer {
 			readCh();
 			while(Character.isDigit(peek)) {
 				b.append(peek);
+				readCh();
 			}
 			
 			float f = Float.parseFloat(b.toString());
@@ -117,6 +118,7 @@ public class Lexer {
 			StringBuffer b = new StringBuffer();
 			do {
 				b.append(peek);
+				readCh();
 			}while(Character.isLetterOrDigit(peek));
 			
 			String s = b.toString();

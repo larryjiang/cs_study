@@ -2,7 +2,6 @@ package cptt.lexer;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -65,7 +64,7 @@ public class Trie{
 			}else{
 				preNode = stateNodeMap.get(result[parent.getState()]);
 				tag1:while(preNode != null){
-					forintag1:for(Character c : preNode.getCharacterMap().keySet()){
+					for(Character c : preNode.getCharacterMap().keySet()){
 						if(c.equals(stateNodeMap.get(i).getCharOfNode()) ){
 							result[i] = preNode.getNextCharacterNode(c).getState();
 							break tag1;
