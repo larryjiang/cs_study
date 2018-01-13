@@ -13,10 +13,15 @@ int main(int argc, char * argv[]){
     struct group * grp = getgrp(argv[1]);
     printf("Group id is %d \n", grp->gr_gid);
     
-    char ** member = grp->gr_mem;
+    char ** m = grp->gr_mem;
     
-    for(char * m = *member; m < *member + 4; m++){
-        printf("member name is %s \n", m);
+   //I did not understand the pointer well so I was not able to write this correctly from
+   //the first place. 
+    while(*m){
+        printf("member name is %s \n", *m);
+        printf("value of m is %p \n", m);
+        m++;
     }
+    
 
 }
