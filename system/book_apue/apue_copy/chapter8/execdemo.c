@@ -16,7 +16,7 @@ int main(int argc, char * argv[]){
         err_sys("fork error");
     }else if(pid == 0){
         setbuf(stdout,NULL);
-        if(execle("/home/yan/codebase/cs_study/system/book_apue/apue_copy/chapter8/echoall", "echoall","myarg1","MY_ARG2",
+        if(execle("/home/yan/codebase/cs_study/system/book_apue/apue_copy/chapter8/echoall", "echo-all","myarg1","MY_ARG2",
             (char *)0,env_init) < 0){
             err_sys("execle error");
         };
