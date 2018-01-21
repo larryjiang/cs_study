@@ -12,5 +12,4 @@ int main(int argc, char *argv[]){
         printf("%s\n", *ptr);
     };
     printf("process id is: %d\n", getpid());
-    exit(0);
 }

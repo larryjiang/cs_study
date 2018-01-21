@@ -20,6 +20,7 @@ int main(int argc, char * argv[]){
             (char *)0,env_init) < 0){
             err_sys("execle error");
         };
+        
     };
     
     if(waitpid(pid,NULL, 0) < 0){
