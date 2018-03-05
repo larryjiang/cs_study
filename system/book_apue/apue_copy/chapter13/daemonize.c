@@ -56,14 +56,14 @@ void daemonize(const char *cmd){
     };
 };
 
-
+/***
 int main(void){
     printf("main starts\n");
     daemonize("daemonize");
     printf("after daemonize !\n");
     sleep(10000);
 };
-
+*/
 
 
 
