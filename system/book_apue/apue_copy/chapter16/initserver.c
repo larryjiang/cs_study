@@ -2,7 +2,6 @@
 #include <errno.h>
 #include <sys/socket.h>
 
-
 int initserver(int type, const struct sockaddr *addr, socklen_t alen, int qlen){
     int fd;
     int err = 0;
@@ -16,7 +15,7 @@ int initserver(int type, const struct sockaddr *addr, socklen_t alen, int qlen){
     };
     
     if(type == SOCK_STREAM || type == SOCK_SEQPACKET){
-        if(listen(fd, qlen)){
+        if(listen(fd, qlen) < 0){
             goto errout;
         };
     };
@@ -24,7 +23,7 @@ int initserver(int type, const struct sockaddr *addr, socklen_t alen, int qlen){
     
     errout:
         err = errno;
-        colse(fd);
+        close(fd);
         errno = err;
         return (-1);
 };
