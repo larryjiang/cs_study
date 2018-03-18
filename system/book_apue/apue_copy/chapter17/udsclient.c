@@ -4,7 +4,7 @@
 #include <sys/socket.h>
 
 
-#define BUFLEN 128
+#define BUFLEN 521
 #define TIMEOUT 30
 extern int cli_conn(const char *name);
 

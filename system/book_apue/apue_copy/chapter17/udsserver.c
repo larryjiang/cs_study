@@ -3,9 +3,10 @@
 #include <errno.h>
 #include <syslog.h>
 #include <sys/socket.h>
+#include <stdlib.h>
 
 
-#define BUFLEN 128
+#define BUFLEN 512
 #define QLEN 10
 
 
@@ -18,7 +19,8 @@ void serve(int sockfd){
     int clfd;
     FILE *fp;
     char buf[BUFLEN];
-    uid_t uidptr;    
+    uid_t uidptr;   
+    char snum[64]; 
  
     set_cloexec(sockfd);
     for(;;){
@@ -26,13 +28,16 @@ void serve(int sockfd){
            syslog(LOG_ERR,"ruptimed: serv_accept error : %d", errno); 
            exit(1);
         };
+        
         set_cloexec(clfd);
         if((fp = popen("/usr/bin/uptime","r")) == NULL){
             sprintf(buf, "error: %d\n", errno);
             send(clfd, buf, strlen(buf),0);
         }else{
             while(fgets(buf, BUFLEN, fp) != NULL){
-                send(clfd, buf, strlen(buf),0);
+                sprintf(snum," the %u uidptr is",uidptr);
+                strcat(buf,snum);
+                send(clfd, buf, strlen(buf) + 1,0);
             };
             pclose(fp);
 
