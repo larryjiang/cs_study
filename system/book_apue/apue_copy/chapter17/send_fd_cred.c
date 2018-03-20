@@ -1,8 +1,13 @@
+//after tons of research, I found add this macro solves the problem
+#define _GNU_SOURCE
+
 #include "../include/apue.h"
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <stddef.h>
 #include <unistd.h>
+
+
 
 #if defined(SCM_CREDS)
 #define CREDSTRUCT cmsgcred
