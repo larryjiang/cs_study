@@ -44,7 +44,7 @@ int recv_fd(int fd, ssize_t (*userfunc)(int, const void *, size_t)){
                 };
                 status = *ptr & 0xFF;
                 if(status == 0){
-                    if(msg.msg_controllen < CONTROLLEN){
+                    if(msg.msg_controllen != CONTROLLEN){
                         err_dump("status = 0 but no fd");
                     };
                     newfd = *(int *)CMSG_DATA(cmptr); 
