@@ -4,7 +4,7 @@
 #include <errno.h>
 
 
-#define CLI_PATH "/var/tmp"
+#define CLI_PATH "/var/tmp/"
 #define CLI_PERM S_IRWXU
 
 
@@ -31,6 +31,7 @@ int cli_conn(const char *name){
     unlink(un.sun_path);
     if(bind(fd, (struct sockaddr *)&un,len) < 0){
         rval = -2;
+        printf("bind failed!");
         goto errout;
     };
     
